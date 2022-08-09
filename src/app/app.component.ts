@@ -1,5 +1,5 @@
 import { OnInit, Component } from '@angular/core';
-import { ApiService } from './service/user.service';
+import { ApiService } from './app.service';
 
 @Component({
   selector: 'app-root',
@@ -8,7 +8,6 @@ import { ApiService } from './service/user.service';
 })
 export class AppComponent implements OnInit {
   users: any = [];
-  jwtToken: string = '';
   categories: any = [];
   isLogged = false
   categoryDetails: any = []
@@ -27,14 +26,15 @@ export class AppComponent implements OnInit {
   logUser({ password, username }: any) {
     this.apiService.logUser(password, username).subscribe(
       response => {
-        this.jwtToken = response.token;
+        console.log(response.token)
+        localStorage.setItem('token', response.token);
         this.isLogged = true;
-        this.getCategories(this.jwtToken)
+        this.getCategories()
       }
     )
   }
-  getCategories(token: string) {
-    this.apiService.getCategories(token).subscribe(
+  getCategories() {
+    this.apiService.getCategories().subscribe(
       response => this.categories = response,
       error => console.log(error),
     );

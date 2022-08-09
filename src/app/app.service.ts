@@ -17,11 +17,13 @@ export class ApiService {
   logUser(password: any, username: any): Observable<any> {
     return this.http.post(`${this.apiUrl}/auth/login`, { password, username })
   }
-  getCategories(token: string): Observable<any> {
-    let header: any = new Headers({ 'Authorization': `Bearer ${token}` });
-    return this.http.get(`${this.apiUrl}/products/categories`, { headers: header });
+  getCategories(): Observable<any> {
+    return this.http.get(`${this.apiUrl}/products/categories`);
   }
   getCategoryDetails(category: string): Observable<any> {
     return this.http.get(`${this.apiUrl}/products/category/${category}`);
+  }
+  getToken() {
+    return localStorage.getItem('token');
   }
 }
